@@ -1,5 +1,7 @@
 # lazy-babylon-to-estree
 
+[![CircleCI](https://circleci.com/gh/DrewML/lazy-babylon-to-estree.svg?style=svg)](https://circleci.com/gh/DrewML/lazy-babylon-to-estree)
+
 WIP: Lazily "convert" a Babylon AST to the ESTree equivalent. Currently only converts `Literal`s.
 
 ## Features
