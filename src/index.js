@@ -1,7 +1,15 @@
+const commentsKey = Symbol('comments');
+
 module.exports = function createASTProxy(ast) {
     try {
         // Babylon uses a `File` wrapper in the AST above `Program`, ESTree does not
-        return new Proxy(ast.type === 'File' ? ast.program : ast, traps);
+        const programAST = ast.type === 'File' ? ast.program : ast;
+        // Ok ok, so we make one mutation to the original AST.
+        Object.defineProperty(programAST, commentsKey, {
+            enumerable: false,
+            value: ast.comments
+        });
+        return new Proxy(programAST, traps);
     } catch (err) {
         throw new Error('ASTProxy is all broken', err);
     }
@@ -79,18 +87,35 @@ function proxyNode(node) {
 // some code somewhere might rely on the fact that references in the AST
 // don't change
 const nodeCache = new WeakMap();
+const commentsCache = new WeakMap();
 
 const traps = {
     get(target, prop, receiver) {
-        if (!Reflect.has(target, prop)) return;
+        // Special case the request for comments
+        if (target.type === 'Program' && prop === 'comments') {
+            if (commentsCache.has(target)) return commentsCache.get(target);
+            // Create new list of comments with a range[int, int] based on start/end
+            const comments = target[commentsKey].map(node =>
+                Object.assign({}, node, {
+                    range: [node.start, node.end]
+                })
+            );
+            commentsCache.set(target, comments);
+            return comments;
+        }
 
         const targetVal = Reflect.get(target, prop);
 
+        // We've seen it before, just return the prior value
         if (nodeCache.has(targetVal)) return nodeCache.get(targetVal);
+
+        // We don't care about non-existent props, use normal ES behavior
+        if (!Reflect.has(target, prop)) return targetVal;
 
         if (Array.isArray(targetVal)) {
             // Arrays in an AST will be homogeneous, so just peek at the first value. If it's
-            // a primitive, we can just return that value
+            // a primitive, we know it doesn't have any nodes, so
+            // we can just return that value
             if (!isObj(targetVal[0])) return targetVal;
             // New array of proxied nodes
             return targetVal.map(proxyNode);

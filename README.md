@@ -7,7 +7,7 @@ WIP: Lazily "convert" a Babylon AST to the ESTree equivalent. Currently only con
 ## Features
 
 * Conversions happen lazily when a property on the AST is accessed
-* Original AST is not mutated
+* Original AST is not mutated (besides 1 non-enumerable, symbol-keyed prop on the `Program` node)
 * Referential Equality between nodes is maintained (`===`)
 * Transformations occur as other code traverses the tree (this module does not perform a separate traversal of the AST)
 
@@ -19,4 +19,3 @@ This is an experiment I'm doing with `webpack` and `babel-loader` to try and pre
 
 * `ObjectProperty` and `ObjectMethod` >> `Property`
 * `ClassMethod` >> `MethodDefinition`
-* Need to see if comments are working at all ¯\_(ツ)\_/¯

@@ -56,3 +56,14 @@ test('Caches replacement nodes and reuses for multiple accesses', () => {
 
     expect(firstAccess === secondAccess).toBeTruthy();
 });
+
+test('Copies over comments and adds ranges', () => {
+    const ast = parse('// foo');
+    const proxied = createASTProxy(ast);
+
+    expect(proxied.comments.length).toBe(ast.comments.length);
+    expect(proxied.comments[0].range).toEqual([
+        ast.comments[0].start,
+        ast.comments[0].end
+    ]);
+});
