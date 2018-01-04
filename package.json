@@ -1,0 +1,33 @@
+{
+  "name": "lazy-babylon-to-estree",
+  "version": "1.0.0",
+  "description": "Lazily transform a Babylon AST into an ESTree AST. Only transforms nodes that are accessed",
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "run-p test:ci prettier:check",
+    "test:ci": "jest -i",
+    "test:dev": "jest --watch",
+    "prettier": "prettier --write 'src/**/*.js'",
+    "prettier:check": "prettier-check 'src/**/*.js'"
+  },
+  "keywords": [
+    "babel",
+    "babylon",
+    "estree"
+  ],
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "author": "Andrew Levine",
+  "license": "MIT",
+  "devDependencies": {
+    "babylon": "^7.0.0-beta.36",
+    "jest": "^22.0.4",
+    "npm-run-all": "^4.1.2",
+    "prettier": "^1.9.2",
+    "prettier-check": "^2.0.0"
+  }
+}
