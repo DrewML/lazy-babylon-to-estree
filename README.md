@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/DrewML/lazy-babylon-to-estree.svg?style=svg)](https://circleci.com/gh/DrewML/lazy-babylon-to-estree)
 
-WIP: Lazily "convert" a Babylon AST to the ESTree equivalent. Currently only converts `Literal`s.
+WIP: Lazily "convert" a Babylon AST to the ESTree equivalent. Currently only converts `Literal`s. For the time being, the goal of this project is only to support the bare minimum transformations needed by `webpack`.
 
 ## Features
 
