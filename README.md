@@ -4,6 +4,10 @@
 
 WIP: Lazily "convert" a Babylon AST to the ESTree equivalent. Currently only converts `Literal`s. For the time being, the goal of this project is only to support the bare minimum transformations needed by `webpack`.
 
+## Changelog
+
+See [`Releases`](https://github.com/DrewML/lazy-babylon-to-estree/releases)
+
 ## Features
 
 * Conversions happen lazily when a property on the AST is accessed
